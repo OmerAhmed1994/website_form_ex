@@ -1,0 +1,53 @@
+ <odoo>
+    
+    <data>
+        <record id="website_form_ex.model_student_student" model="ir.model">
+            <field name="website_form_default_field_id" ref="website_form_ex.field_student_student__name" />
+            <field name="website_form_access">True</field>
+            <field name="website_form_label">Create a Student</field>
+        </record>
+        <function model="ir.model.fields" name="formbuilder_whitelist">
+            <value>student.student</value>
+            <value eval="[
+                'name',
+                'age',
+            ]"/>
+        </function>
+    </data>
+    <record id="about-menu" model="website.menu">
+        <field name="name">About us</field>
+        <field name="url">/aboutus</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" type="int">41</field>
+    </record>
+    <template id="aboutus" inherit_id="website.aboutus" customize_show="True">
+        <xpath expr="//div[hasclass('oe_structure')]" position="replace">
+            <div class="oe_structure">
+                <section class="s_text_image pt32 pb32">
+                    <div class="container">
+                        <form action="/website_form/" method="post" data-model_name="student.student" class="s_website_form container-fluid mt32" enctype="multipart/form-data" data-editable-form="false">
+                            <div class="form-group row form-field o_website_form_required_custom">
+                                <label class="col-lg-3 col-md-4 col-form-label" for="name">Name</label>
+                                <div class="col-lg-7 col-md-8">
+                                    <input type="text" name="name" required="" t-value="request.params.get('name', '')" />
+                                </div>
+                            </div>
+                            <div class="form-group row form-field o_website_form_required_custom">
+                                <label class="col-lg-3 col-md-4 col-form-label" for="age">Age</label>
+                                <div class="col-lg-7 col-md-8">
+                                    <input type="number" name="age" required="" t-value="request.params.get('age', '')" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="offset-lg-3 offset-md-4 col-md-8 col-lg-7">
+                                    <a href="#" role="button" class="btn btn-primary btn-lg o_website_form_send">Send</a>
+                                    <span id="o_website_form_result"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+</odoo>
